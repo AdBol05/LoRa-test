@@ -95,6 +95,13 @@ void receivePacket() {
 }
 
 void setup() {
+  #if defined(ESP8266) || defined(ESP32)
+  #else
+    SPI.setRX(LORA_MISO);
+    SPI.setTX(LORA_MOSI);
+    SPI.setSCK(LORA_SCK);
+  #endif
+
   Serial.begin(9600);
   delay(10000);
   Serial.println("SETUP");
