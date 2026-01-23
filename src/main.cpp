@@ -15,7 +15,7 @@
   #define LORA_DIO1 39
   #define LORA_RESET 42
   #define LORA_BUSY 40
-#else
+#elif defined(PICO_RP2040)
   #define LORA_MISO 12
   #define LORA_SCK 10
   #define LORA_MOSI 11
@@ -96,7 +96,7 @@ void receivePacket() {
 
 void setup() {
   #if defined(ESP8266) || defined(ESP32)
-  #else
+  #elif defined(PICO_RP2040)
     SPI.setRX(LORA_MISO);
     SPI.setTX(LORA_MOSI);
     SPI.setSCK(LORA_SCK);
