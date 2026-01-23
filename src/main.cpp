@@ -16,14 +16,14 @@
   #define LORA_RESET 42
   #define LORA_BUSY 40
 #elif defined(PICO_RP2040)
-  #define LORA_MISO 12
-  #define LORA_SCK 10
-  #define LORA_MOSI 11
-  #define LORA_CS 3
-  #define LORA_DIO2 21
-  #define LORA_DIO1 20
-  #define LORA_RESET 15
-  #define LORA_BUSY 2
+  #define LORA_MISO 0  //12
+  #define LORA_SCK 2  //10
+  #define LORA_MOSI 3  //11
+  #define LORA_CS 8  //3
+  #define LORA_DIO2 10  //21
+  #define LORA_DIO1 9  //20
+  #define LORA_RESET 11  //15
+  #define LORA_BUSY 12  //2
 #endif
 
 SX1262 radio = new Module(LORA_CS, LORA_DIO1, LORA_RESET, LORA_BUSY);
