@@ -15,7 +15,7 @@
   #define LORA_DIO1 39
   #define LORA_RESET 42
   #define LORA_BUSY 40
-#elif defined(PICO_RP2040)
+#elif defined(PICO_RP2040) || defined(PICO_RP2350)
   #define LORA_MISO 0  //12
   #define LORA_SCK 2  //10
   #define LORA_MOSI 3  //11
