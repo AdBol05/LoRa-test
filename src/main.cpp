@@ -104,7 +104,7 @@ void setup() {
   #endif
 
   Serial.begin(9600);
-  delay(10000);
+  delay(5000);
   Serial.println("SETUP");
   initRadio();
   #ifdef RECEIVER
