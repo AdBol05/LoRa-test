@@ -79,14 +79,15 @@ void receivePacket() {
   int state = radio.readData(str);
   if (state == RADIOLIB_ERR_NONE) {
     Serial.println(F("[SX1262] Received packet!"));
-    Serial.print(F("[SX1262] Data: "));
-    Serial.println(str);
-    Serial.print(F("[SX1262] RSSI: "));
+    Serial.print(F("[RSSI] "));
     Serial.print(radio.getRSSI());
     Serial.println(F(" dBm"));
-    Serial.print(F("[SX1262] SNR: "));
+    Serial.print(F("[SNR] "));
     Serial.print(radio.getSNR());
     Serial.println(F(" dB"));
+    Serial.println(F("[DATA] "));
+    Serial.println(str);
+    Serial.println("=====================================");
   }
   else {
     Serial.print(F("readData failed, code "));
