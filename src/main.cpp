@@ -38,13 +38,13 @@ ICACHE_RAM_ATTR
 void setFlag(void) {operationDone = true;}
 
 bool validateParameters(float frequency, float bandwidth, uint8_t spreadingFactor, uint8_t codingRate, uint8_t syncWord, float outputPower, uint16_t preambleLength) {
-  if (frequency < 150.0 || frequency > 960.0) {Serial.println(F("Error: Frequency must be between 150.0 MHz and 960.0 MHz.")); return false;}
-  if (bandwidth != 7.8 && bandwidth != 10.4 && bandwidth != 15.6 && bandwidth != 20.8 && bandwidth != 31.25 && bandwidth != 41.7 && bandwidth != 62.5 && bandwidth != 125.0 && bandwidth != 250.0 && bandwidth != 500.0) {Serial.println(F("Error: Invalid bandwidth value.")); return false;}
-  if (spreadingFactor < 6 || spreadingFactor > 12) {Serial.println(F("Error: Spreading factor must be between 6 and 12.")); return false;}
-  if (codingRate < 5 || codingRate > 8) {Serial.println(F("Error: Coding rate must be between 5 and 8.")); return false;}
-  if (outputPower < -17.0 || outputPower > 22.0) {Serial.println(F("Error: Output power must be between -17 dBm and 22 dBm.")); return false;}
-  if (preambleLength < 6 || preambleLength > 65535) {Serial.println(F("Error: Preamble length must be between 6 and 65535 symbols.")); return false;}
-  if (syncWord > 0xFF) {Serial.println(F("Error: Sync word must be a valid 1-byte value.")); return false;}
+  if (frequency < 150.0 || frequency > 960.0) {Serial.print(F("Error: Frequency must be between 150.0 MHz and 960.0 MHz.\r\n")); return false;}
+  if (bandwidth != 7.8 && bandwidth != 10.4 && bandwidth != 15.6 && bandwidth != 20.8 && bandwidth != 31.25 && bandwidth != 41.7 && bandwidth != 62.5 && bandwidth != 125.0 && bandwidth != 250.0 && bandwidth != 500.0) {Serial.print(F("Error: Invalid bandwidth value.\r\n")); return false;}
+  if (spreadingFactor < 6 || spreadingFactor > 12) {Serial.print(F("Error: Spreading factor must be between 6 and 12.\r\n")); return false;}
+  if (codingRate < 5 || codingRate > 8) {Serial.print(F("Error: Coding rate must be between 5 and 8.\r\n")); return false;}
+  if (outputPower < -17.0 || outputPower > 22.0) {Serial.print(F("Error: Output power must be between -17 dBm and 22 dBm.\r\n")); return false;}
+  if (preambleLength < 6 || preambleLength > 65535) {Serial.print(F("Error: Preamble length must be between 6 and 65535 symbols.\r\n")); return false;}
+  if (syncWord > 0xFF) {Serial.print(F("Error: Sync word must be a valid 1-byte value.\r\n")); return false;}
   return true;
 }
 
@@ -62,7 +62,7 @@ void initRadio() {
   Serial.print(F("[SX1262] Initializing ... "));
   int state = radio.begin(frequency, bandwidth, spreadingFactor, codingRate, syncWord, outputPower, preambleLength, 1.6, false);
 
-  if (state == RADIOLIB_ERR_NONE) {Serial.println(F("success!")); radio.setDio1Action(setFlag);}
+  if (state == RADIOLIB_ERR_NONE) {Serial.print(F("success!\r\n")); radio.setDio1Action(setFlag);}
   else {Serial.print(F("failed, code ")); Serial.println(state); while(true){delay(10);}}
 }
 
@@ -78,20 +78,21 @@ void receivePacket() {
   String str;
   int state = radio.readData(str);
   if (state == RADIOLIB_ERR_NONE) {
-    Serial.println(F("[SX1262] Received packet!"));
+    Serial.print(F("[SX1262] Received packet!\r\n"));
     Serial.print(F("[RSSI] "));
     Serial.print(radio.getRSSI());
-    Serial.println(F(" dBm"));
+    Serial.print(F(" dBm\r\n"));
     Serial.print(F("[SNR] "));
     Serial.print(radio.getSNR());
-    Serial.println(F(" dB"));
-    Serial.println(F("[DATA] "));
-    Serial.println(str);
-    Serial.println("=====================================");
+    Serial.print(F(" dB\r\n"));
+    Serial.print(F("[DATA] \r\n"));
+    Serial.print(str);
+    Serial.print("\r\n=====================================\r\n");
   }
   else {
     Serial.print(F("readData failed, code "));
-    Serial.println(state);
+    Serial.print(state);
+    Serial.print("\r\n");
   }
 }
 
@@ -105,7 +106,7 @@ void setup() {
 
   Serial.begin(9600);
   delay(5000);
-  Serial.println("SETUP");
+  Serial.print("SETUP\r\n");
   initRadio();
   #ifdef RECEIVER
     radio.startReceive();
@@ -119,8 +120,8 @@ void loop() {
   if (operationDone) {
     operationDone = false;
     if (transmitFlag) {
-      if (transmissionState == RADIOLIB_ERR_NONE) {Serial.println(F("transmission finished!"));}
-      else {Serial.print(F("failed, code ")); Serial.println(transmissionState);}
+      if (transmissionState == RADIOLIB_ERR_NONE) {Serial.print(F("transmission finished!\r\n"));}
+      else {Serial.print(F("failed, code ")); Serial.print(transmissionState); Serial.print("\r\n");}
 
       radio.startReceive();
       transmitFlag = false;
