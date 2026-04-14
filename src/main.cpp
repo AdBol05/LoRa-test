@@ -50,12 +50,12 @@ bool validateParameters(float frequency, float bandwidth, uint8_t spreadingFacto
 
 void initRadio() {
   float frequency = 869.525; //915.0
-  float bandwidth = 125;   //125.0;
-  uint8_t spreadingFactor = 7;
+  float bandwidth = 500;   //125.0;
+  uint8_t spreadingFactor = 6;  //?7
   uint8_t codingRate = 5;  // 5;
   uint8_t syncWord = 0x12;    //0x34(44) for public
   float outputPower = 14;   //17;
-  uint16_t preambleLength = 8;  //10;
+  uint16_t preambleLength = 6;  //8;
 
   if (!validateParameters(frequency, bandwidth, spreadingFactor, codingRate, syncWord, outputPower, preambleLength)) {Serial.println(F("Error: Invalid parameters. Stopping.")); while(true){delay(10);}}
 
