@@ -24,6 +24,15 @@
   #define LORA_DIO1 9  //20
   #define LORA_RESET 11  //15
   #define LORA_BUSY 12  //2
+#else //TODO elif nrf52840
+  #define LORA_MISO 8
+  #define LORA_SCK 9
+  #define LORA_MOSI 10
+  #define LORA_CS    4    // Chip Select
+  #define LORA_DIO1  1    // Interrupt
+  #define LORA_BUSY  3    // Busy signal
+  #define LORA_RESET 2    // Reset pin
+  #define LORA_DIO2  -1    // Usually used for internal RF switching
 #endif
 
 SX1262 radio = new Module(LORA_CS, LORA_DIO1, LORA_RESET, LORA_BUSY);
